@@ -2,12 +2,18 @@ import { MainLayout } from "@/components/MainLayout";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
-export default function About() {
+export default function About({title}) {
     const router = useRouter();
     return (
-        <MainLayout title={'About Page'}>
-            <h1>About</h1>
+        <MainLayout title={title}>
+            <h1>{title}</h1>
             <button onClick={() => router.push('/')}>Go back to home</button>
         </MainLayout>
     )
+}
+
+About.getInitialProps = async () => {
+    const response = await fetch('http://localhost:4200/about');
+    const data = await response.json();
+    return {title: data.title};
 }
